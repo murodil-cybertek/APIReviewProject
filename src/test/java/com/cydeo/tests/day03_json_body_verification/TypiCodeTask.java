@@ -80,10 +80,8 @@ public class TypiCodeTask {
         assertTrue(emails.contains("Sherwood@rosamond.me"));
 
         //add all cities into List<String> then print out in same line
-
-
-
-
+        List<String> cities = json.getList("address.city");
+        System.out.println("cities = " + cities);
     }
 
 }
