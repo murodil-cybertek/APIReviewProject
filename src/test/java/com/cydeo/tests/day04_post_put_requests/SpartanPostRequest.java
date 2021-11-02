@@ -4,6 +4,9 @@ import io.restassured.response.Response;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static io.restassured.RestAssured.*;
 import static org.junit.Assert.*;
 
@@ -41,6 +44,32 @@ public class SpartanPostRequest {
                 .when().post("/api/spartans");
         System.out.println("Status code = " + response.statusCode());
         response.prettyPrint();
+        assertEquals(201, response.statusCode());
+        assertEquals("application/json", response.contentType());
+        assertEquals("A Spartan is Born!", response.jsonPath().getString("success"));
+    }
+
+    /**
+     SERIALIZATION -> process of converting from java object to JSON
+     GSON library is helping with that
+     HashMap object -> Json
+     */
+    @Test
+    public void postNewSpartanTestSerialize() {
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("name","Murodil");
+        requestBody.put("gender","Male");
+        requestBody.put("phone",2023751774L);
+
+        Response response = given().accept("application/json").and()
+                .contentType("application/json")
+                .body(requestBody)
+                .when().post("/api/spartans");
+        System.out.println("Status code = " + response.statusCode());
+        response.prettyPrint();
+        assertEquals(201, response.statusCode());
+        assertEquals("application/json", response.contentType());
+        assertEquals("A Spartan is Born!", response.jsonPath().getString("success"));
     }
 
 }
