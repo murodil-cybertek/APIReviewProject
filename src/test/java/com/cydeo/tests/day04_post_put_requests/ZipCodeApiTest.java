@@ -61,6 +61,12 @@ public class ZipCodeApiTest {
         System.out.println("City = " + placeInfo.get("place name"));
         assertEquals("Mc Lean", placeInfo.get("place name"));
         assertEquals("Virginia" , placeInfo.get("state"));
+
+        //DE-SERIALIZE FROM JSON TO JAVA POJO CLASS OBJECT
+        ZipCodeInfo zipCodeInfo = response.as(ZipCodeInfo.class);
+        System.out.println("Country name from POJO = " + zipCodeInfo.country);
+        System.out.println("City name from POJO = " + zipCodeInfo.places.get(0).placeName);
+
     }
 
 }
