@@ -1,8 +1,10 @@
 package com.cydeo.tests.day04_post_put_requests;
 
-import javax.annotation.processing.Generated;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import javax.annotation.processing.Generated;
 
 @Generated("jsonschema2pojo")
 public class Place {
