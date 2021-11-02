@@ -9,6 +9,7 @@ import java.util.Map;
 
 import static io.restassured.RestAssured.*;
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class ZipCodeApiTest {
 
@@ -35,7 +36,7 @@ public class ZipCodeApiTest {
         assertEquals(200, response.statusCode());
         //verifying headers: content type and Date
         assertEquals("application/json", response.contentType());
-        assertTrue(response.getHeader("Date").contains("Mon, 01 Nov 2021"));
+        assertTrue(response.getHeader("Date").contains("Tue, 02 Nov 2021"));
 
         //Verify place name "Mc Lean" using path method
         assertEquals("Mc Lean", response.path("places[0].'place name'"));
@@ -51,17 +52,15 @@ public class ZipCodeApiTest {
         assertEquals("Virginia", json.getString("places[0].state"));
 
         //verify city and state using de-serialization with Java collections
-        //Json -> java object
+        //Json -> java object using GSON library.
         Map<String, Object> jsonMap = response.as(Map.class);
         System.out.println("country = " + jsonMap.get("country"));
         System.out.println("places = " + jsonMap.get("places"));
 
         Map<String, Object> placeInfo = json.getMap("places[0]");
         System.out.println("City = " + placeInfo.get("place name"));
-
-
-
-
+        assertEquals("Mc Lean", placeInfo.get("place name"));
+        assertEquals("Virginia" , placeInfo.get("state"));
     }
 
 }
