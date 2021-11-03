@@ -51,7 +51,7 @@ public class SpartanPostRequest {
 
     /**
      SERIALIZATION -> process of converting from java object to JSON
-     GSON library is helping with that
+     GSON parser library is helping with that
      HashMap object -> Json
      */
     @Test
