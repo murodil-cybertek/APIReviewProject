@@ -292,3 +292,114 @@ And name, gender, phone info matches my request
 
 Add new class SpartanPostRequest
 
+==================================
+
+
+11/02/2021
+----------
+
+API testing review day 5
+------------------------
+
+Microservice -> nowadays, developer try to develop applications by dividing into small pieces. Why? So it is faster to develop and easier to test. Also good for reusability.
+
+Mostly testing of microservices happens using UNit tests by developers.
+Also important part of successful micro service testing is INTERGRATION testing.
+
+In Java Spring framework, there is @Service annotation, that helps create a Microservice , so one single class itself is an independent micro service.
+
+That class will have constructors, methods, and will do specific processing of data and business logic.
+
+EX:
+
+@Service
+public class Enrollment {
+
+	public void acceptApplication(Applicant studentData) {
+			if (isValidApplication(studentData)){
+				notifyTheApplicant(studentData);
+				notifyTheEnrollmentTeam(studentData);
+			} else {
+				rejectInvalidApplication(studentData);
+			}
+
+	}
+
+	public boolean isValidApplication(Applicant studentData)
+	.....
+}
+
+When writing REST Apis , we write controller classes that expose Url Endpoints for the RestApi.
+Rest API can have multiple or many endpoints, and while writing code for those endpoints -> we can call one or more microservice classes.
+==================================
+
+If you want to direct the conversation to Rest API Testing:
+
+Do you have experience with Microservices testing,
+The application in my project was developed using micro services,and my responsibility is to test the RESTFul API endpoints that USE those services.
+
+=====================================================
+
+PUT request, updates the existing data/resource.
+In some cases when the data does NOT exist, it will create it like POST request.
+
+API URL: http://54.205.239.177:8000/api/spartans
+
+Given accept type and content type are json
+And request json body is :
+"{
+"name":"Bob",
+"gender" : "Male",
+"phone" : 3014567896
+}"
+When i send put request with parameter 1409
+Then status code is 204
+
+
+Difference between PUT and PATCH?
+PUT request updates existing data fully
+PATCH request is partial update
+
+When we send PUT request, we might have to provide data to all required fields, otherwise it will not go through.
+
+When we send PATCH request, we can just send the portion of data we want to update.
+===================================================
+
+USING TOKENS WITH REST API REQUESTS:
+
+- so far all Api endpoints that we practiced - worked without using username or passwords nor tokens.
+
+In real project at the job, most likely, you will need to generate access token to do any requests to Rest API.
+
+How does it work?
+
+we will have a dedicated separate API endpoint that accepts username and password, then returns Access token.
+-> we extract/read that access token then PASS it to other API endpoints that we want to test/send request.
+
+FLOW OF USING ACCESS TOKEN:
+
+1) Send a POST or GET request to API endpoint that GENERATES and RETURNS token.
+   this API endpoint normally:
+   - url ends with "/token"
+   - accepts username/email and password
+   - returns access_token in the json body
+   Responsibity of this API endpoint is VERIFY if username and passwords are VALID then GENERATE access token for that user.
+
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjp7ImlkIjoiMTYwIiwiZnVsbF9uYW1lIjoiVGVzdCBTdHVkZW50IDMwIiwiZW1haWwiOiJzdHVkZW50MzBAbGlicmFyeSIsInVzZXJfZ3JvdXBfaWQiOiIzIn0sImlhdCI6MTYzNTkwMzU4NiwiZXhwIjoxNjM4NDk1NTg2fQ.bqiJiJz2YnJUuB1984sYFb7KYyztRCklsYaz8YjCaQI
+
+https://jwt.io
+
+The above token has a meaning that code can understand.
+We can use above website to convert it to json and read.
+----------------
+
+2) AFTER we have the token, now we PASS that ACCESS TOKEN to in the HEADER and able to send requests to other API Endpoints:
+
+String accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjp7ImlkIjoiMTYwIiwiZnVsbF9uYW1lIjoiVGVzdCBTdHVkZW50IDMwIiwiZW1haWwiOiJzdHVkZW50MzBAbGlicmFyeSIsInVzZXJfZ3JvdXBfaWQiOiIzIn0sImlhdCI6MTYzNTkwMzU4NiwiZXhwIjoxNjM4NDk1NTg2fQ.bqiJiJz2YnJUuB1984sYFb7KYyztRCklsYaz8YjCaQI";
+
+Response response = given().header("x-library-token", accessToken)
+.when().get("/get_book_list_for_borrowing");
+System.out.println(response.statusCode());
+response.prettyPrint();
+NOW WE WILL NOT GET 401 UNAUTHORIZED ERROR, WE WILL GET 200 AND JSON RESPONSE BODY.
+
