@@ -1,0 +1,137 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "title": "The root schema",
+  "description": "The root schema comprises the entire JSON document.",
+  "default": {},
+  "examples": [
+    {
+      "id": "1",
+      "full_name": "Admin",
+      "email": "admin@library",
+      "user_group_id": "1",
+      "image": null,
+      "status": "ACTIVE",
+      "is_admin": "1",
+      "start_date": "2020-02-03",
+      "end_date": "2020-03-31",
+      "address": "test"
+    }
+  ],
+  "required": [
+    "id",
+    "full_name",
+    "email",
+    "user_group_id",
+    "image",
+    "status",
+    "is_admin",
+    "start_date",
+    "end_date",
+    "address"
+  ],
+  "properties": {
+    "id": {
+      "$id": "#/properties/id",
+      "type": "string",
+      "title": "The id schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": "",
+      "examples": [
+        "1"
+      ]
+    },
+    "full_name": {
+      "$id": "#/properties/full_name",
+      "type": "string",
+      "title": "The full_name schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": "",
+      "examples": [
+        "Admin"
+      ]
+    },
+    "email": {
+      "$id": "#/properties/email",
+      "type": "string",
+      "title": "The email schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": "",
+      "examples": [
+        "admin@library"
+      ]
+    },
+    "user_group_id": {
+      "$id": "#/properties/user_group_id",
+      "type": "string",
+      "title": "The user_group_id schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": "",
+      "examples": [
+        "1"
+      ]
+    },
+    "image": {
+      "$id": "#/properties/image",
+      "type": "null",
+      "title": "The image schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": null,
+      "examples": [
+        null
+      ]
+    },
+    "status": {
+      "$id": "#/properties/status",
+      "type": "string",
+      "title": "The status schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": "",
+      "examples": [
+        "ACTIVE"
+      ]
+    },
+    "is_admin": {
+      "$id": "#/properties/is_admin",
+      "type": "string",
+      "title": "The is_admin schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": "",
+      "examples": [
+        "1"
+      ]
+    },
+    "start_date": {
+      "$id": "#/properties/start_date",
+      "type": "string",
+      "title": "The start_date schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": "",
+      "examples": [
+        "2020-02-03"
+      ]
+    },
+    "end_date": {
+      "$id": "#/properties/end_date",
+      "type": "string",
+      "title": "The end_date schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": "",
+      "examples": [
+        "2020-03-31"
+      ]
+    },
+    "address": {
+      "$id": "#/properties/address",
+      "type": "string",
+      "title": "The address schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": "",
+      "examples": [
+        "test"
+      ]
+    }
+  },
+  "additionalProperties": true
+}
