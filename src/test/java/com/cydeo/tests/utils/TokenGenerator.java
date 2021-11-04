@@ -11,3 +11,4 @@ public class TokenGenerator {
         return response.jsonPath().getString("token");
     }
 }
+
