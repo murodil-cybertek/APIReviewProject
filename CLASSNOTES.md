@@ -403,3 +403,210 @@ System.out.println(response.statusCode());
 response.prettyPrint();
 NOW WE WILL NOT GET 401 UNAUTHORIZED ERROR, WE WILL GET 200 AND JSON RESPONSE BODY.
 
+==============================================================
+
+
+11/03/2021
+----------
+
+API Testing Review Day 5
+-------------------------
+
+if you don't have a document, how can you test the Database with JDBC ? or no API document?
+
+DATABASE: For understanding the database, it is good to have the Database schema in hand so that I can see all the tables/columns/primary keys and how the tables are related to each other.
+
+Then I can write queries based on the column names, tables names and data types.
+
+Lets say no Database schema, once I get connected to database using SQL developer, I can generate the schema and inspect tables names/columns there.
+-----
+Also if I have access to source of my application , I can search the the queries and see at what step they were used. If developers are using data persistance tools like Hibernate, then I go through the java classes that are used for data manipulation.
+-----
+
+API:
+
+{
+"$schema": "http://json-schema.org/draft-04/schema#",
+"type": "object",
+"properties": {
+"storeAddressModel": {
+"type": "object",
+"properties": {
+"address": {
+"type": "object",
+"properties": {
+"line1": {
+"type": "string"
+},
+"city": {
+"type": "string"
+},
+"state": {
+"type": "string"
+},
+"country": {
+"type": "string"
+},
+"zipcode": {
+"type": "string"
+}
+},
+"required": [
+"line1",
+"city",
+"state",
+"country",
+"zipcode"
+]
+},
+"localPage": {
+"type": "string"
+},
+"storeRewards": {
+"type": "object",
+"properties": {
+"storeId": {
+"type": "string"
+},
+"hasGroceryDelivery": {
+"type": "boolean"
+},
+"hasDUG": {
+"type": "boolean"
+},
+"hasRushDelivery": {
+"type": "boolean"
+},
+"hasGroceryRewards": {
+"type": "boolean"
+},
+"gasRewardsId": {
+"type": "string"
+},
+"rewardsProgramId": {
+"type": "string"
+},
+"storeLogoName": {
+"type": "string"
+},
+"storeLogoURL": {
+"type": "string"
+},
+"storeName": {
+"type": "string"
+},
+"polarisBannerName": {
+"type": "string"
+}
+},
+"required": [
+"storeId",
+"hasGroceryDelivery",
+"hasDUG",
+"hasRushDelivery",
+"hasGroceryRewards",
+"gasRewardsId",
+"rewardsProgramId",
+"storeLogoName",
+"storeLogoURL",
+"storeName",
+"polarisBannerName"
+]
+}
+},
+"required": [
+"address",
+"localPage",
+"storeRewards"
+]
+}
+},
+"required": [
+"storeAddressModel"
+]
+}
+
+
+
+{
+"storeAddressModel": {
+"address": {
+"line1": "5100 Broadway",
+"city": "Oakland",
+"state": "CA",
+"country": "US",
+"zipcode": "94611"
+},
+"localPage": "https://local.safeway.com/safeway/ca/oakland/5100-broadway.html",
+"storeRewards": {
+"storeId": "3132",
+"hasGroceryDelivery": true,
+"hasDUG": true,
+"hasRushDelivery": false,
+"hasGroceryRewards": true,
+"gasRewardsId": "251",
+"rewardsProgramId": "5-251",
+"storeLogoName": "safeway_logo",
+"storeLogoURL": "https://images.albertsons-media.com/is/image/ABS/safeway_logo",
+"storeName": "Safeway",
+"polarisBannerName": "safeway"
+}
+}
+}
+==================================
+
+JSON Schema validation -> is a process to verify if json response matches the expected schema. I verify that each key in Json and Schema with datatypes are exactly matching.
+
+Can you automate json schema matching validation, yes.
+
+<dependency>
+    <groupId>io.rest-assured</groupId>
+    <artifactId>json-schema-validator</artifactId>
+    <version>4.4.0</version>
+</dependency>
+
+
+@Test
+public void givenUrl_whenJsonResponseConformsToSchema_thenCorrect() {
+get("/events?id=390").then().assertThat()
+.body(matchesJsonSchemaInClasspath("event_0.json"));
+}
+
+event_0.json contains json schema.
+------------------------------------
+
+cUrl is a command line tool that we can use instead of PostMan.
+It runs in terminal or cmd, and we can send API request and see responses there.
+EX:
+curl -X GET "https://library2.cybertekschool.com/rest/v1/get_book_list_for_borrowing" -H "accept: application/json" -H "x-library-token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjp7ImlkIjoiMTYwIiwiZnVsbF9uYW1lIjoiVGVzdCBTdHVkZW50IDMwIiwiZW1haWwiOiJzdHVkZW50MzBAbGlicmFyeSIsInVzZXJfZ3JvdXBfaWQiOiIzIn0sImlhdCI6MTYzNTk4MTAyMiwiZXhwIjoxNjM4NTczMDIyfQ.yNsv1Lj3bDcAZO5rO4YLc2PbS-BvphNMMMa-xPTzZt0"
+=========================
+
+Json Schema validation process:
+
+1) Take example json response and generate json schema for that.
+2) Store the json schema in a file
+   EX: UserSchema.json
+3) Add RestAssured Json-schema validator dependency into Pom.xml
+4) Send a request to API then verify that response json body matches the expected schema.
+   EX:
+   given().header("x-library-token", accessToken)
+   .when().get("/get_user_by_id/1")
+   .then().assertThat()
+   .body(JsonSchemaValidator.matchesJsonSchema(new File("UserJsonSchema.json")));
+   Tools:
+   RestAssured and RestAssured JsonSchema Validator
+   Maven
+   ========================================
+
+- compare UI - API - DATABASE
+
+UI automation: Java, Selenium WebDriver, Cucumber, Maven, Junit
+API: Java, RestAssured, Postman, Maven, Cucumber
+Database: SQL Queries Sql developer - Java, JDBC, Junit
+
+How did you test UI and API.
+
+I send a POST request from API endpoint then I login to UI to verify if the data is displayed and matching the data that i posted using API.
+
+
+
